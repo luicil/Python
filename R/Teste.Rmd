@@ -1,0 +1,42 @@
+#importa dados, string vazio como NA, string como fatores
+dados = read.csv("Churn.csv", sep = ";", na.strings="", stringsAsFactors=T)
+
+colnames(dados) = c("Id","Score","Estado","Genero","Idade","Patrimonio","Saldo","Produtos","TemCartCredito","Ativo","Salario","Saiu")
+
+# head(dados)
+
+dados[is.na(dados$Genero) | dados$Genero == "M" ,]$Genero = "Masculino" 
+
+dados[dados$Genero == "F" | dados$Genero == "Fem", ]$Genero = "Feminino" 
+
+dados$Genero =   factor(dados$Genero)
+
+summary(dados$Genero)
+
+#counts = table(dados$Estado, dados$Genero)
+
+# table(dados$Estado, dados$Genero)
+
+unique(dados$Estado)
+
+summary(dados$Estado)
+
+#preencher com a moda, RS
+
+dados[!dados$Estado %in% c("RS","SC","PR", "SP"),]$Estado = "RS"
+
+summary(dados$Estado)
+
+#removemos fatores não usados
+
+dados$Estado =   factor(dados$Estado)
+
+counts = table(dados$Estado, dados$Genero)
+
+# table(dados$Estado, dados$Genero)
+
+barplot(counts, main="Gêneros", xlab="Gêneros")
+
+hist(counts)
+
+
